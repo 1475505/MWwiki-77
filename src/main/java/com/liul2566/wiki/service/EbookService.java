@@ -1,10 +1,15 @@
 package com.liul2566.wiki.service;
 
 import com.liul2566.wiki.domain.Ebook;
+import com.liul2566.wiki.domain.EbookExample;
 import com.liul2566.wiki.mapper.EbookMapper;
+import com.liul2566.wiki.req.EbookReq;
+import com.liul2566.wiki.resp.EbookResp;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +20,20 @@ public class EbookService {
     @Resource
     private EbookMapper Ebookmapper;
 
-    public List<Ebook> list() {
-        return Ebookmapper.selectByExample(null);
+
+    public List<EbookResp> list(EbookReq req) {
+        EbookExample ebookExample = new EbookExample();
+        EbookExample.Criteria criteria = ebookExample.createCriteria();
+        criteria.andNameLike("%" + req.getName() + "%");
+        List<Ebook> ebookList = Ebookmapper.selectByExample(ebookExample);
+
+        List<EbookResp> respList = new ArrayList<>();
+        for (Ebook ebook : ebookList) {
+            EbookResp ebookResp = new EbookResp();
+            BeanUtils.copyProperties(ebook, ebookResp);
+            //ebookResp.setId(123L);
+            respList.add(ebookResp);
+        }
+        return respList;
     }
 }
