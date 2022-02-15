@@ -5,7 +5,6 @@
 
 <generatorConfiguration>
     <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
-
         <!-- 自动检查关键字，为关键字增加反引号 -->
         <property name="autoDelimitKeywords" value="true"/>
         <property name="beginningDelimiter" value="`"/>
