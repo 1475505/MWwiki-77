@@ -95,7 +95,6 @@ export default defineComponent({
     MessageOutlined,
   },
   setup() {
-    console.log("setup");
     const pagination = {
       onChange: (page: number) => {
         console.log(page);
@@ -111,12 +110,10 @@ export default defineComponent({
     const ebooks1 = reactive({books: []});
 
     onMounted(function () { //生命周期函数
-      console.log("onMounted.");
       axios.get("/Ebook/list").then((response) => {//function
         const data = response.data;
         ebooks.value = data.content;
         ebooks1.books = data.content;
-        console.log(response);
       });
     })
     return {
