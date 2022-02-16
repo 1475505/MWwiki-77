@@ -2,9 +2,7 @@
   <a-layout>
     <the-header></the-header>
     <router-view/>
-    <a-layout-footer style="text-align: center">
-      <a href="https://beian.miit.gov.cn/">桂ICP备2021008883号</a>
-    </a-layout-footer>
+    <the-footer></the-footer>
   </a-layout>
 </template>
 
@@ -12,6 +10,7 @@
 import {LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons-vue';
 import {defineComponent, ref} from 'vue';
 import theHeader from "@/components/the-header.vue";
+import theFooter from "@/components/the-footer.vue";
 
 export default defineComponent({
   name: 'app',
@@ -19,7 +18,8 @@ export default defineComponent({
     UserOutlined,
     LaptopOutlined,
     NotificationOutlined,
-    theHeader
+    theHeader,
+    theFooter
   },
   setup() {
     return {
