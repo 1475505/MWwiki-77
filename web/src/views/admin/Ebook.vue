@@ -40,6 +40,31 @@
       </a-table>
     </a-layout-content>
   </a-layout>
+  <a-modal
+      title="电子书表单"
+      v-model:visible="visible"
+      :confirm-loading="confirmLoading"
+      @ok="handleOk"
+  >
+    <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="封面">
+        <a-input v-model:value="ebook.cover"/>
+      </a-form-item>
+      <a-form-item label="名称">
+        <a-input v-model:value="ebook.name"/>
+      </a-form-item>
+      <!--      <a-form-item label="分类">-->
+      <!--        <a-cascader-->
+      <!--            v-model:value="categoryIds"-->
+      <!--            :field-names="{ label: 'name', value: 'id', children: 'children' }"-->
+      <!--            :options="level1"-->
+      <!--        />-->
+      <!--      </a-form-item>-->
+      <a-form-item label="描述">
+        <a-input v-model:value="ebook.description" type="textarea"/>
+      </a-form-item>
+    </a-form>
+  </a-modal>
 </template>
 
 
@@ -133,45 +158,41 @@ export default defineComponent({
     /**
      * 数组，[100, 101]对应：前端开发 / Vue
      */
-    const categoryIds = ref();
-    const ebook = ref();
-    const modalVisible = ref(false);
-    const modalLoading = ref(false);
-    const handleModalOk = () => {
-      modalLoading.value = true;
-      ebook.value.category1Id = categoryIds.value[0];
-      ebook.value.category2Id = categoryIds.value[1];
-      axios.post("/Ebook/save", ebook.value).then((response) => {
-        modalLoading.value = false;
-        const data = response.data; // data = commonResp
-        if (data.success) {
-          modalVisible.value = false;
+    const ebook = ref({});
+    const modalText = ref<string>('Content of the modal');
+    const visible = ref<boolean>(false);
+    const confirmLoading = ref<boolean>(false);
 
-          // 重新加载列表
-          handleQuery({
-            //page: pagination.value.current,
-            //size: pagination.value.pageSize,
-          });
-        } else {
-          message.error(data.message);
-        }
-      });
+    const showModal = () => {
+      visible.value = true;
     };
 
+    const handleOk = () => {
+      modalText.value = 'The modal will be closed after two seconds';
+      confirmLoading.value = true;
+      setTimeout(() => {
+        visible.value = false;
+        confirmLoading.value = false;
+      }, 2000);
+    };
+    // 重新加载列表
+    handleQuery({
+      //page: pagination.value.current,
+      //size: pagination.value.pageSize,
+    });
     /**
      * 编辑
      */
     const edit = (record: any) => {
-      modalVisible.value = true;
-      categoryIds.value = [ebook.value.category1Id, ebook.value.category2Id]
+      visible.value = true;
+      ebook.value = record;
     };
 
     /**
      * 新增
      */
     const add = () => {
-      modalVisible.value = true;
-      ebook.value = {};
+      visible.value = true;
     };
 
     const handleDelete = (id: number) => {
@@ -188,7 +209,6 @@ export default defineComponent({
         }
       });
     };
-
 
     onMounted(() => {
       handleQuery({
@@ -208,13 +228,12 @@ export default defineComponent({
 
       edit,
       add,
-
       ebook,
-      modalVisible,
-      modalLoading,
-      handleModalOk,
-      categoryIds,
-
+      modalText,
+      visible,
+      confirmLoading,
+      showModal,
+      handleOk,
       handleDelete
     }
   }
