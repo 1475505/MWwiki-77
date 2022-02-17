@@ -56,7 +56,7 @@ export default defineComponent({
     const ebooks = ref();
     const pagination = ref({
       current: 1,
-      pageSize: 10,
+      pageSize: 4,
       total: 0
     });
     const loading = ref(false);
@@ -107,7 +107,7 @@ export default defineComponent({
         loading.value = false;
         const data = response.data;
         if (data.success) {
-          ebooks.value = data.content;
+          ebooks.value = data.content.list;
 
           // 重置分页按钮
           pagination.value.current = params.page;
@@ -191,7 +191,10 @@ export default defineComponent({
 
 
     onMounted(() => {
-      handleQuery({});
+      handleQuery({
+        page: 1,
+        size: pagination.value.pageSize
+      });
     });
 
     return {
