@@ -168,18 +168,20 @@ export default defineComponent({
     };
 
     const handleOk = () => {
-      modalText.value = 'The modal will be closed after two seconds';
       confirmLoading.value = true;
-      setTimeout(() => {
-        visible.value = false;
-        confirmLoading.value = false;
-      }, 2000);
+      axios.post("/Ebook/save", ebook.value).then((response) => {
+        const data = response.data;// data = common response.
+        if (data.success) {
+          visible.value = false;
+          confirmLoading.value = false;
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize
+          })
+        }
+      });
     };
-    // 重新加载列表
-    handleQuery({
-      //page: pagination.value.current,
-      //size: pagination.value.pageSize,
-    });
+
     /**
      * 编辑
      */

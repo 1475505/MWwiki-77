@@ -1,15 +1,14 @@
 package com.liul2566.wiki.controller;
 
-import com.liul2566.wiki.req.EbookReq;
+import com.liul2566.wiki.req.EbookQueryReq;
+import com.liul2566.wiki.req.EbookSaveReq;
 import com.liul2566.wiki.resp.CommonResp;
-import com.liul2566.wiki.resp.EbookResp;
+import com.liul2566.wiki.resp.EbookQueryResp;
 import com.liul2566.wiki.resp.PageResp;
 import com.liul2566.wiki.service.EbookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,18 +27,25 @@ public class EbookController {
 
 
     @GetMapping("/list")
-    public CommonResp Ebook_list(EbookReq req) {
-        CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
-        PageResp<EbookResp> list = Ebookservice.list(req);
+    public CommonResp Ebook_list(EbookQueryReq req) {
+        CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
+        PageResp<EbookQueryResp> list = Ebookservice.list(req);
         resp.setContent(list);
         return resp;
     }
 
     @GetMapping("/all")
-    public CommonResp all(EbookReq req) {
-        CommonResp<List<EbookResp>> resp = new CommonResp<>();
-        List<EbookResp> list = Ebookservice.all(req);
+    public CommonResp all(EbookQueryReq req) {
+        CommonResp<List<EbookQueryResp>> resp = new CommonResp<>();
+        List<EbookQueryResp> list = Ebookservice.all(req);
         resp.setContent(list);
+        return resp;
+    }
+
+    @PostMapping("/save")
+    public CommonResp save(@RequestBody EbookSaveReq req) {
+        CommonResp resp = new CommonResp<>();
+        Ebookservice.save(req);
         return resp;
     }
 }
