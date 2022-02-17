@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,5 +53,12 @@ public class EbookService {
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(CopyUtil.copyList(ebookList, EbookResp.class));
         return pageResp;
+    }
+
+    public List<EbookResp> all(EbookReq req) {
+        List<Ebook> ebookList = Ebookmapper.selectByExample(null);
+        List<EbookResp> ebookResps = new ArrayList<>();
+        ebookResps = CopyUtil.copyList(ebookList, EbookResp.class);
+        return ebookResps;
     }
 }

@@ -10,12 +10,16 @@ GET http://localhost:8880/hello
    client.assert(response.body === "hello", "结果验证失败");
  });
 %}
+
 ###
 
 POST http://localhost:8880/hello/post
 Content-Type: application/x-www-form-urlencoded
 
 name=TEST
+
+###
+GET http://localhost:8880/Ebook/all
 
 ###
 
