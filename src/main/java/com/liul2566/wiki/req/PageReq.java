@@ -1,7 +1,14 @@
 package com.liul2566.wiki.req;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+
 public class PageReq {
+    @NotNull(message = "页数不能为空")
     private int page;
+
+    @NotNull(message = "每页条数不能为空")
+    @Max(value = 64, message = "每页条数不能超过64.")
     private int size;
 
     public int getPage() {

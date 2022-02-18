@@ -46,7 +46,7 @@
     </a-layout-content>
   </a-layout>
   <a-modal
-      title="电子书表单"
+      title="电子书信息"
       v-model:visible="visible"
       :confirm-loading="confirmLoading"
       @ok="handleOk"
@@ -176,13 +176,15 @@ export default defineComponent({
       confirmLoading.value = true;
       axios.post("/Ebook/save", ebook.value).then((response) => {
         const data = response.data;// data = common response.
+        confirmLoading.value = false;
         if (data.success) {
           visible.value = false;
-          confirmLoading.value = false;
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize
           })
+        } else {
+          message.error(data.message);
         }
       });
     };
