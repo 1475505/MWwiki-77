@@ -18,7 +18,7 @@
           :columns="columns"
           :row-key="record => record.id"
           :data-source="categorys"
-          :pagination="pagination"
+          :pagination="false"
           :loading="loading"
           @change="handleTableChange"
       >
@@ -96,11 +96,6 @@ export default defineComponent({
     const param = ref();
     param.value = {};
     const categorys = ref();
-    const pagination = ref({
-      current: 1,
-      pageSize: 8,
-      total: 0
-    });
     const loading = ref(false);
 
     const columns = [
@@ -140,39 +135,18 @@ export default defineComponent({
     /**
      * 数据查询
      **/
-    const handleQuery = (params: any) => {
+    const handleQuery = () => {
       loading.value = true;
       // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
       categorys.value = [];
-      axios.get("/Category/list", {
-        params: {
-          page: params.page,
-          size: params.size,
-          name: param.value.name
-        }
-      }).then((response) => {
+      axios.get("/Category/all",).then((response) => {
         loading.value = false;
         const data = response.data;
         if (data.success) {
-          categorys.value = data.content.list;
-
-          // 重置分页按钮
-          pagination.value.current = params.page;
-          pagination.value.total = data.content.total;
+          categorys.value = data.content;
         } else {
           message.error(data.message);
         }
-      });
-    };
-
-    /**
-     * 表格点击页码时触发
-     */
-    const handleTableChange = (pagination: any) => {
-      console.log("看看自带的分页参数都有啥：" + pagination);
-      handleQuery({
-        page: pagination.current,
-        size: pagination.pageSize,
       });
     };
 
@@ -196,10 +170,7 @@ export default defineComponent({
         confirmLoading.value = false;
         if (data.success) {
           visible.value = false;
-          handleQuery({
-            page: pagination.value.current,
-            size: pagination.value.pageSize
-          })
+          handleQuery();
         } else {
           message.error(data.message);
         }
@@ -219,7 +190,6 @@ export default defineComponent({
 
     const onSearch = (searchValue: string) => {
       param.value.name = value;
-      handleQuery({page: 1, size: pagination.value.pageSize, name: value})
     };
     /**
      * 新增
@@ -234,10 +204,7 @@ export default defineComponent({
         const data = response.data; // data = commonResp
         if (data.success) {
           // 重新加载列表
-          handleQuery({
-            page: pagination.value.current,
-            size: pagination.value.pageSize,
-          });
+          handleQuery();
         } else {
           message.error(data.message);
         }
@@ -245,19 +212,14 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      handleQuery({
-        page: 1,
-        size: pagination.value.pageSize
-      });
+      handleQuery();
     });
 
     return {
       param,
       categorys,
-      pagination,
       columns,
       loading,
-      handleTableChange,
       handleQuery,
       handleOk,
       handleDelete,
