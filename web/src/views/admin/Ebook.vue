@@ -6,6 +6,14 @@
           新增
         </a-button>
       </p>
+      <br/>
+      <a-input-search
+          v-model:value="value"
+          placeholder="按名称筛选"
+          enter-button
+          style="width: 256px"
+          @search="onSearch"
+      />
       <a-table
           :columns="columns"
           :row-key="record => record.id"
@@ -155,7 +163,7 @@ export default defineComponent({
       console.log("看看自带的分页参数都有啥：" + pagination);
       handleQuery({
         page: pagination.current,
-        size: pagination.pageSize
+        size: pagination.pageSize,
       });
     };
 
@@ -197,6 +205,13 @@ export default defineComponent({
       ebook.value = record;
     };
 
+    // 搜索
+    const value = ref<string>('');
+
+    const onSearch = (searchValue: string) => {
+      param.value.name = value;
+      handleQuery({page: 1, size: pagination.value.pageSize, name: value})
+    };
     /**
      * 新增
      */
@@ -240,6 +255,8 @@ export default defineComponent({
 
       edit,
       add,
+      value,
+      onSearch,
 
       ebook,
       modalText,
