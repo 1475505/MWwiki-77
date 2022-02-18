@@ -17,7 +17,7 @@
       <a-table
           :columns="columns"
           :row-key="record => record.id"
-          :data-source="categorys"
+          :data-source="level1"
           :pagination="false"
           :loading="loading"
           @change="handleTableChange"
@@ -138,12 +138,17 @@ export default defineComponent({
     const handleQuery = () => {
       loading.value = true;
       // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
-      categorys.value = [];
-      axios.get("/Category/all",).then((response) => {
+      level1.value = [];
+      axios.get("/Category/all").then((response) => {
         loading.value = false;
         const data = response.data;
         if (data.success) {
           categorys.value = data.content;
+          console.log("原始数组：", categorys.value);
+
+          level1.value = [];
+          level1.value = Tool.array2Tree(categorys.value, 0);
+          console.log("树形结构：", level1);
         } else {
           message.error(data.message);
         }
@@ -223,6 +228,7 @@ export default defineComponent({
       handleQuery,
       handleOk,
       handleDelete,
+      level1,
 
       edit,
       add,
