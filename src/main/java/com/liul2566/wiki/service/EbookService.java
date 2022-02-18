@@ -10,8 +10,10 @@ import com.liul2566.wiki.req.EbookSaveReq;
 import com.liul2566.wiki.resp.EbookQueryResp;
 import com.liul2566.wiki.resp.PageResp;
 import com.liul2566.wiki.util.CopyUtil;
+import com.liul2566.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -26,6 +28,9 @@ import java.util.List;
 public class EbookService {
     @Resource
     private EbookMapper Ebookmapper;
+
+    @Autowired// same as @resource
+    private SnowFlake snowFlake;
 
     private static final Logger LOG = LoggerFactory.getLogger(EbookService.class);
 
@@ -66,9 +71,17 @@ public class EbookService {
     public void save(EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())) {
+            ebook.setId(snowFlake.nextId());
+            ebook.setDocCount(1);
+            ebook.setVoteCount(1);
+            ebook.setViewCount(1);
             Ebookmapper.insert(ebook);
         } else {
             Ebookmapper.updateByPrimaryKey(ebook);
         }
+    }
+
+    public void delete(Long id) {
+        Ebookmapper.deleteByPrimaryKey(id);
     }
 }

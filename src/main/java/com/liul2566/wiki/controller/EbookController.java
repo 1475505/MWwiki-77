@@ -48,4 +48,11 @@ public class EbookController {
         Ebookservice.save(req);
         return resp;
     }
+
+    @DeleteMapping("/delete/{id}")//mybatis: ${id}
+    public CommonResp delete(@PathVariable Long id) {
+        CommonResp resp = new CommonResp<>();
+        Ebookservice.delete(id);
+        return resp;
+    }
 }

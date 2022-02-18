@@ -1,6 +1,11 @@
 <template>
   <a-layout>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+      <p>
+        <a-button type="primary" @click="add()" size="large">
+          新增
+        </a-button>
+      </p>
       <a-table
           :columns="columns"
           :row-key="record => record.id"
@@ -195,6 +200,7 @@ export default defineComponent({
      */
     const add = () => {
       visible.value = true;
+      ebook.value = {};
     };
 
     const handleDelete = (id: number) => {
@@ -227,16 +233,18 @@ export default defineComponent({
       loading,
       handleTableChange,
       handleQuery,
+      handleOk,
+      handleDelete,
 
       edit,
       add,
+
       ebook,
       modalText,
       visible,
       confirmLoading,
       showModal,
-      handleOk,
-      handleDelete
+
     }
   }
 });
