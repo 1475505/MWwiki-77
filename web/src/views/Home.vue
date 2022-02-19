@@ -93,7 +93,7 @@ export default defineComponent({
   setup() {
 
     const state = reactive({
-      theme: 'dark',
+      theme: 'light',
       selectedKeys: ['1'],
       openKeys: ['sub1'],
       collapsed: true
