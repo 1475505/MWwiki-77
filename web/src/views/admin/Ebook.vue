@@ -66,13 +66,15 @@
       <a-form-item label="名称">
         <a-input v-model:value="ebook.name"/>
       </a-form-item>
-      <!--      <a-form-item label="分类">-->
-      <!--        <a-cascader-->
-      <!--            v-model:value="categoryIds"-->
-      <!--            :field-names="{ label: 'name', value: 'id', children: 'children' }"-->
-      <!--            :options="level1"-->
-      <!--        />-->
-      <!--      </a-form-item>-->
+      <a-form-item label="分类">
+        <a-cascader
+            v-model:value="categoryIds"
+            :field-names="{ label: 'name', value: 'id', children: 'children' }"
+            :options="level1"
+            expand-trigger="hover"
+            placeholder="选择分类"
+        />
+      </a-form-item>
       <a-form-item label="描述">
         <a-input v-model:value="ebook.description" type="textarea"/>
       </a-form-item>
@@ -113,6 +115,10 @@ export default defineComponent({
       {
         title: '文档数',
         dataIndex: 'docCount'
+      },
+      {
+        title: '分类',
+        slots: {customRender: 'category'}
       },
       {
         title: '阅读数',
@@ -172,7 +178,50 @@ export default defineComponent({
     /**
      * 数组，[100, 101]对应：前端开发 / Vue
      */
-    const ebook = ref({});
+        //级联选择
+    const categoryIds = ref();
+    let categorys: any;
+    const level1 = ref();
+    const ebook = ref();
+    /**
+     * 查询所有分类
+     **/
+    const handleQueryCategory = () => {
+      loading.value = true;
+      axios.get("/Category/all").then((response) => {
+        loading.value = false;
+        const data = response.data;
+        if (data.success) {
+          categorys = data.content;
+          console.log("原始数组：", categorys);
+
+          level1.value = [];
+          level1.value = Tool.array2Tree(categorys, 0);
+          console.log("树形结构：", level1.value);
+
+          // 加载完分类后，再加载电子书，否则如果分类树加载很慢，则电子书渲染会报错
+          handleQuery({
+            page: 1,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    const getCategoryName = (cid: number) => {
+      // console.log(cid)
+      let result = "";
+      categorys.forEach((item: any) => {
+        if (item.id === cid) {
+          // return item.name; // 注意，这里直接return不起作用
+          result = item.name;
+        }
+      });
+      return result;
+    };
+
     const modalText = ref<string>('Content of the modal');
     const visible = ref<boolean>(false);
     const confirmLoading = ref<boolean>(false);
@@ -183,6 +232,8 @@ export default defineComponent({
 
     const handleOk = () => {
       confirmLoading.value = true;
+      ebook.value.category1Id = categoryIds.value[0];
+      ebook.value.category2Id = categoryIds.value[1];
       axios.post("/Ebook/save", ebook.value).then((response) => {
         const data = response.data;// data = common response.
         confirmLoading.value = false;
@@ -204,6 +255,7 @@ export default defineComponent({
     const edit = (record: any) => {
       visible.value = true;
       ebook.value = Tool.copy(record);
+      categoryIds.value = [ebook.value.category1Id, ebook.value.category2Id];
     };
 
     // 搜索
@@ -237,6 +289,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      handleQueryCategory();
       handleQuery({
         page: 1,
         size: pagination.value.pageSize
@@ -253,6 +306,13 @@ export default defineComponent({
       handleQuery,
       handleOk,
       handleDelete,
+
+      level1,
+      categorys,
+      categoryIds,
+      getCategoryName,
+      handleQueryCategory,
+
 
       edit,
       add,
