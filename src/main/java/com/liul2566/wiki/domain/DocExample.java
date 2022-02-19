@@ -8,7 +8,7 @@ public class DocExample {
 
     protected boolean distinct;
 
-    protected List<Criteria> oredCriteria;
+    protected static List<Criteria> oredCriteria;
 
     public DocExample() {
         oredCriteria = new ArrayList<>();
@@ -44,7 +44,7 @@ public class DocExample {
         return criteria;
     }
 
-    public Criteria createCriteria() {
+    public static Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
         if (oredCriteria.size() == 0) {
             oredCriteria.add(criteria);
@@ -52,7 +52,7 @@ public class DocExample {
         return criteria;
     }
 
-    protected Criteria createCriteriaInternal() {
+    protected static Criteria createCriteriaInternal() {
         Criteria criteria = new Criteria();
         return criteria;
     }
