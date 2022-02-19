@@ -33,6 +33,11 @@
         </a-menu>
       </div>
     </a-layout-sider>
+    <router-link to="/">
+      <div class="welcome" v-show="isShowWelcome">
+        <the-welcome>欢迎来到七七wiki！</the-welcome>
+      </div>
+    </router-link>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
       <a-list item-layout="vertical" size="large" :grid="{column: 2}" :pagination="pagination" :data-source="ebooks">
         <template #renderItem="{ item }">
@@ -139,7 +144,7 @@ export default defineComponent({
       axios.get("/Ebook/list", {
         params: {
           page: 1,
-          size: 1000,
+          size: 60,
           categoryId2: categoryId2
         }
       }).then((response) => {
