@@ -84,4 +84,10 @@ public class DocService {
     public void delete(Long id) {
         Docmapper.deleteByPrimaryKey(id);
     }
+
+    public void delete(List<String> ids) {
+        DocExample docExample = new DocExample();
+        DocExample.createCriteria().andIdIn(ids);
+        Docmapper.deleteByExample(docExample);
+    }
 }
