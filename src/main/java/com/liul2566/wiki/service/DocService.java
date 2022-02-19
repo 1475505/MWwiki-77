@@ -2,8 +2,10 @@ package com.liul2566.wiki.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.liul2566.wiki.domain.Content;
 import com.liul2566.wiki.domain.Doc;
 import com.liul2566.wiki.domain.DocExample;
+import com.liul2566.wiki.mapper.ContentMapper;
 import com.liul2566.wiki.mapper.DocMapper;
 import com.liul2566.wiki.req.DocQueryReq;
 import com.liul2566.wiki.req.DocSaveReq;
@@ -27,7 +29,8 @@ import java.util.List;
 public class DocService {
     @Resource
     private DocMapper Docmapper;
-
+    @Resource
+    private ContentMapper contentMapper;
     @Autowired// same as @resource
     private SnowFlake snowFlake;
 
@@ -73,11 +76,18 @@ public class DocService {
 
     public void save(DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
+        Content content = CopyUtil.copy(req, Content.class);
         if (ObjectUtils.isEmpty(req.getId())) {
             doc.setId(snowFlake.nextId());
             Docmapper.insert(doc);
-        } else {
+            content.setId(doc.getId());//!!ID需要为同一个值，不要雪花生成
+            contentMapper.insert(content);
+        } else { //update
             Docmapper.updateByPrimaryKey(doc);
+            int count = contentMapper.updateByPrimaryKeyWithBLOBs(content);//BLOB - 大字段（富文本）
+            if (count == 0) {
+                contentMapper.insert(content);
+            }
         }
     }
 
