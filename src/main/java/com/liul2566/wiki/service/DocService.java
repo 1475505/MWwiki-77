@@ -100,4 +100,13 @@ public class DocService {
         DocExample.createCriteria().andIdIn(ids);
         Docmapper.deleteByExample(docExample);
     }
+
+    public String findContent(Long id) {
+        Content content = contentMapper.selectByPrimaryKey(id);
+        if (ObjectUtils.isEmpty(content)) {
+            return "";
+        } else {
+            return content.getContent();
+        }
+    }
 }
