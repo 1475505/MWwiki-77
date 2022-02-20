@@ -7,10 +7,12 @@ import com.liul2566.wiki.domain.UserExample;
 import com.liul2566.wiki.exception.BusinessException;
 import com.liul2566.wiki.exception.BusinessExceptionCode;
 import com.liul2566.wiki.mapper.UserMapper;
+import com.liul2566.wiki.req.UserLoginReq;
 import com.liul2566.wiki.req.UserQueryReq;
 import com.liul2566.wiki.req.UserResetPasswordReq;
 import com.liul2566.wiki.req.UserSaveReq;
 import com.liul2566.wiki.resp.PageResp;
+import com.liul2566.wiki.resp.UserLoginResp;
 import com.liul2566.wiki.resp.UserQueryResp;
 import com.liul2566.wiki.util.CopyUtil;
 import com.liul2566.wiki.util.SnowFlake;
@@ -92,6 +94,21 @@ public class UserService {
     public void resetPassword(UserResetPasswordReq req) {
         User user = CopyUtil.copy(req, User.class);
         Usermapper.updateByPrimaryKeySelective(user);//user为null时不会执行
+    }
+
+    public UserLoginResp login(UserLoginReq req) {
+        User userDB = selectByLoginName(req.getLoginName());
+        if (ObjectUtils.isEmpty(userDB)) {
+            LOG.info("用户名不存在，{}", req.getLoginName());
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        } else {
+            if (userDB.getPassword().equals(req.getPassword())) {
+                return CopyUtil.copy(userDB, UserLoginResp.class);
+            } else {
+                LOG.info("密码错误，{}", req.getPassword());
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }
     }
 
     public User selectByLoginName(String LoginName) {
