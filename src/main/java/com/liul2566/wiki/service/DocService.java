@@ -7,6 +7,7 @@ import com.liul2566.wiki.domain.Doc;
 import com.liul2566.wiki.domain.DocExample;
 import com.liul2566.wiki.mapper.ContentMapper;
 import com.liul2566.wiki.mapper.DocMapper;
+import com.liul2566.wiki.mapper.DocMapperCust;
 import com.liul2566.wiki.req.DocQueryReq;
 import com.liul2566.wiki.req.DocSaveReq;
 import com.liul2566.wiki.resp.DocQueryResp;
@@ -31,6 +32,8 @@ public class DocService {
     private DocMapper Docmapper;
     @Resource
     private ContentMapper contentMapper;
+    @Resource
+    private DocMapperCust docMapperCust;
     @Autowired// same as @resource
     private SnowFlake snowFlake;
 
@@ -80,6 +83,8 @@ public class DocService {
         if (ObjectUtils.isEmpty(req.getId())) {
             doc.setId(snowFlake.nextId());
             Docmapper.insert(doc);
+            doc.setViewCount(0);
+            doc.setVoteCount(0);
             content.setId(doc.getId());//!!ID需要为同一个值，不要雪花生成
             contentMapper.insert(content);
         } else { //update
@@ -103,6 +108,7 @@ public class DocService {
 
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
+        docMapperCust.increaseViewCount(id);
         if (ObjectUtils.isEmpty(content)) {
             return "";
         } else {
