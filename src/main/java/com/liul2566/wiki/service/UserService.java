@@ -82,7 +82,8 @@ public class UserService {
                 throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
             }
         } else {
-            Usermapper.updateByPrimaryKey(user);
+            user.setLoginName(null);//临时变量设计i
+            Usermapper.updateByPrimaryKeySelective(user);//user为null时不会执行
         }
     }
 
