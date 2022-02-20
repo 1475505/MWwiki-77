@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liul2566.wiki.domain.User;
 import com.liul2566.wiki.domain.UserExample;
+import com.liul2566.wiki.exception.BusinessException;
+import com.liul2566.wiki.exception.BusinessExceptionCode;
 import com.liul2566.wiki.mapper.UserMapper;
 import com.liul2566.wiki.req.UserQueryReq;
 import com.liul2566.wiki.req.UserSaveReq;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
@@ -72,11 +75,26 @@ public class UserService {
     public void save(UserSaveReq req) {
         User user = CopyUtil.copy(req, User.class);
         if (ObjectUtils.isEmpty(req.getId())) {
-            user.setId(snowFlake.nextId());
-
-            Usermapper.insert(user);
+            if (ObjectUtils.isEmpty(selectByLoginName(req.getLoginName()))) {
+                user.setId(snowFlake.nextId());
+                Usermapper.insert(user);
+            } else {
+                throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+            }
         } else {
             Usermapper.updateByPrimaryKey(user);
+        }
+    }
+
+    public User selectByLoginName(String LoginName) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andLoginNameEqualTo(LoginName);
+        List<User> userList = Usermapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(userList)) {
+            return null;
+        } else {
+            return userList.get(0);
         }
     }
 
