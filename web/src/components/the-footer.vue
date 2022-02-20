@@ -1,6 +1,6 @@
 <template>
   <a-layout-footer style="text-align: center">
-    {{ user.name }}, this site is sourced by 070077.xyz<br>
+    Hi,{{ user.name }} this site is sourced by 070077.xyz<br>
     <a href="https://beian.miit.gov.cn/">桂ICP备2021008883号</a>
   </a-layout-footer>
 </template>
