@@ -1,6 +1,7 @@
 package com.liul2566.wiki.controller;
 
 import com.liul2566.wiki.req.UserQueryReq;
+import com.liul2566.wiki.req.UserResetPasswordReq;
 import com.liul2566.wiki.req.UserSaveReq;
 import com.liul2566.wiki.resp.CommonResp;
 import com.liul2566.wiki.resp.PageResp;
@@ -50,6 +51,14 @@ public class UserController {
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes(StandardCharsets.UTF_8)));
         CommonResp resp = new CommonResp<>();
         Userservice.save(req);
+        return resp;
+    }
+
+    @PostMapping("/reset-password")
+    public CommonResp resetPassword(@Valid @RequestBody UserResetPasswordReq req) {
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes(StandardCharsets.UTF_8)));
+        CommonResp resp = new CommonResp<>();
+        Userservice.resetPassword(req);
         return resp;
     }
 

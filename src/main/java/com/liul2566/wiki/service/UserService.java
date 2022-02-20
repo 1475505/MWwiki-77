@@ -8,6 +8,7 @@ import com.liul2566.wiki.exception.BusinessException;
 import com.liul2566.wiki.exception.BusinessExceptionCode;
 import com.liul2566.wiki.mapper.UserMapper;
 import com.liul2566.wiki.req.UserQueryReq;
+import com.liul2566.wiki.req.UserResetPasswordReq;
 import com.liul2566.wiki.req.UserSaveReq;
 import com.liul2566.wiki.resp.PageResp;
 import com.liul2566.wiki.resp.UserQueryResp;
@@ -83,8 +84,14 @@ public class UserService {
             }
         } else {
             user.setLoginName(null);//临时变量设计i
+            user.setPassword(null);
             Usermapper.updateByPrimaryKeySelective(user);//user为null时不会执行
         }
+    }
+
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        Usermapper.updateByPrimaryKeySelective(user);//user为null时不会执行
     }
 
     public User selectByLoginName(String LoginName) {
