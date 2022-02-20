@@ -66,4 +66,12 @@ public class DocController {
         Docservice.delete(strings);
         return resp;
     }
+
+
+    @GetMapping("/vote/{id}")
+    public CommonResp vote(@PathVariable Long id) {
+        CommonResp<List<DocQueryResp>> resp = new CommonResp<>();
+        Docservice.vote(id);
+        return resp;
+    }
 }
