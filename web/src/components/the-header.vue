@@ -1,10 +1,9 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo"/>
+    <div class="logo">七七wiki</div>
     <a-menu
         theme="dark"
         mode="horizontal"
-        v-model:selectedKeys="selectedKeys1"
         :style="{ lineHeight: '64px' }"
     >
       <a-menu-item key="/home">
@@ -29,11 +28,11 @@
           <span>退出登录</span>
         </a>
       </a-popconfirm>
-      <a class="login-menu" v-show="user.id">
-        <span>您好：{{ user.name }}</span>
+      <a class="loginmenu" v-show="user.id">
+        <span>您好：{{ user.name }}  </span>
       </a>
-      <a class="login-menu" v-show="!user.id" @click="showLoginModal">
-        <span>登录</span>
+      <a class="loginmenu" v-show="!user.id" @click="showLoginModal">
+        <span>请登录  </span>
       </a>
     </a-menu>
   </a-layout-header>
@@ -137,9 +136,9 @@ export default defineComponent({
   font-size: 18px;
 }
 
-.login-menu {
+.loginmenu {
+  padding-left: 10px;
   float: right;
   color: white;
-  padding-left: 10px;
 }
 </style>

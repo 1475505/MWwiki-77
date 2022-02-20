@@ -81,9 +81,17 @@ public class UserController {
         LOG.info("生成token并放入redis");
         Long token = snowFlake.nextId();
         userLoginResp.setToken(token.toString());
-        redisTemplate.opsForValue().set(token, JSONObject.toJSONString(userLoginResp), 3600 * 24, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(token.toString(), JSONObject.toJSONString(userLoginResp), 3600 * 24, TimeUnit.SECONDS);
 
         resp.setContent(userLoginResp);
+        return resp;
+    }
+
+    @GetMapping("/logout/{token}")//mybatis: ${id}
+    public CommonResp logout(@PathVariable String token) {
+        CommonResp resp = new CommonResp<>();
+        redisTemplate.delete(token);
+        LOG.info("删除token");
         return resp;
     }
 
