@@ -33,12 +33,12 @@
         </a-menu>
       </div>
     </a-layout-sider>
-    <router-link to="/">
-      <div class="welcome" v-show="isShowWelcome">
-        <the-welcome>欢迎来到七七wiki！</the-welcome>
-      </div>
-    </router-link>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+      <router-link to="/">
+        <div class="welcome" v-show="isShowWelcome">
+          <the-welcome>欢迎来到七七wiki！</the-welcome>
+        </div>
+      </router-link>
       <a-list item-layout="vertical" size="large" :grid="{column: 2}" :pagination="pagination" :data-source="ebooks">
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
@@ -76,6 +76,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref, toRefs} from 'vue';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import TheWelcome from "@/components/the-welcome.vue";
 import axios from 'axios';
 import {message} from 'ant-design-vue';
 import {LikeOutlined, MessageOutlined, StarOutlined} from '@ant-design/icons-vue';
@@ -89,6 +90,7 @@ export default defineComponent({
     StarOutlined,
     LikeOutlined,
     MessageOutlined,
+    TheWelcome
   },
   setup() {
 

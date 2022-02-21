@@ -99,7 +99,13 @@
         <div id="main" style="width: 100%;height:300px;"></div>
       </a-col>
     </a-row>
+
+    <div class="tip">
+      <div><b>感谢与站长一起合作制作七七系列工具</b></div>
+      <p>TODO:更换文本编辑器为vditor</p>
+    </div>
   </div>
+  <div><a href="http://070077.xyz">七七的笔记（博客）：http://070077.xyz</a></div>
 </template>
 
 <script lang="ts">
@@ -248,7 +254,7 @@ export default defineComponent({
 
     onMounted(() => {
       getStatistic();
-      // testEcharts();
+      //testEcharts();
       get30DayStatistic();
     });
 

@@ -7,6 +7,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <script src="<%= BASE_URL %>js/md5.js"></script>
     <script src="<%= BASE_URL %>js/session-storage.js"></script>
+    <script src="<%= BASE_URL %>js/echarts.js"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
@@ -14,7 +15,19 @@
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>
 </noscript>
-<div id="app"></div>
+<div id="app">
+    <div style="width: 400px;
+      height: 100px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin: -50px 0 0 -200px;font-family: YouYuan;
+      color: rgba(0, 0, 0, 1) !important;
+      font-size: 20px !important;
+      font-weight: 400;">
+        七七正在努力整理她的笔记...
+    </div>
+</div>
 <!-- built files will be auto injected -->
 </body>
 </html>

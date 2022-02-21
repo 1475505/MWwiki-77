@@ -33,7 +33,7 @@ public class EbookSnapshotJob {
      * 只有等上一次执行完成，下一次才会在下一个时间点执行，错过就错过
      */
     // @Scheduled(cron = "1/10 * * * * ?")
-    @Scheduled(cron = "0 0 4/4 * * ? *")
+    @Scheduled(cron = "0 0 4/4 * * ?")
     public void doSnapshot() {
         // 增加日志流水号
         MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
