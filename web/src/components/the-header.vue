@@ -76,6 +76,7 @@ export default defineComponent({
     const loginModalVisible = ref(false);
     const loginModalLoading = ref(false);
     const showLoginModal = () => {
+      loginUser.value.password = "";
       loginModalVisible.value = true;
     };
 
@@ -90,9 +91,9 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("登录成功！");
-
           store.commit("setUser", data.content);
         } else {
+          loginUser.value.password = "";
           message.error(data.message);
         }
       });
