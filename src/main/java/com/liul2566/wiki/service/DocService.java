@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
@@ -86,6 +87,7 @@ public class DocService {
         return list;
     }
 
+    @Transactional//涉及两张表，故需要设计事务,必须由其他类调用才生效
     public void save(DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
         Content content = CopyUtil.copy(req, Content.class);
@@ -135,7 +137,7 @@ public class DocService {
 
         //推送消息
         Doc docDB = Docmapper.selectByPrimaryKey(id);
-        //异步化解耦，为异步化生效**必须在另一个类**
+        //异步化解耦，为异步化生效**必须为另一个类调用**
         wsService.sendInfo("[" + docDB.getName() + "]被点赞！", MDC.get("LOG_ID"));
     }
 
