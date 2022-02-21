@@ -18,9 +18,9 @@ import com.liul2566.wiki.util.CopyUtil;
 import com.liul2566.wiki.util.RedisUtil;
 import com.liul2566.wiki.util.RequestContext;
 import com.liul2566.wiki.util.SnowFlake;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,8 +46,8 @@ public class DocService {
     private RedisUtil redisUtil;
     @Autowired
     private WsService wsService;
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
+//    @Resource
+//    private RocketMQTemplate rocketMQTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(DocService.class);
 
@@ -140,8 +140,8 @@ public class DocService {
         //推送消息
         Doc docDB = Docmapper.selectByPrimaryKey(id);
         //异步化解耦，为异步化生效**必须为另一个类调用**
-        //wsService.sendInfo("[" + docDB.getName() + "]被点赞！", MDC.get("LOG_ID"));
-        rocketMQTemplate.convertAndSend("VOTE_TOPIC", "[" + docDB.getName() + "]被点赞！");
+        wsService.sendInfo("[" + docDB.getName() + "]被点赞！", MDC.get("LOG_ID"));
+        //rocketMQTemplate.convertAndSend("VOTE_TOPIC", "[" + docDB.getName() + "]被点赞！");
     }
 
 
