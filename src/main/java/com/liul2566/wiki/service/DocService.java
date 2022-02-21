@@ -89,9 +89,9 @@ public class DocService {
         Content content = CopyUtil.copy(req, Content.class);
         if (ObjectUtils.isEmpty(req.getId())) {
             doc.setId(snowFlake.nextId());
-            Docmapper.insert(doc);
             doc.setViewCount(0);
             doc.setVoteCount(0);
+            Docmapper.insert(doc);
             content.setId(doc.getId());//!!ID需要为同一个值，不要雪花生成
             contentMapper.insert(content);
         } else { //update
@@ -131,5 +131,9 @@ public class DocService {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
         docMapperCust.increaseViewCount(id);
+    }
+
+    public void updateEbookInfo() {
+        docMapperCust.updateEbookInfo();
     }
 }
