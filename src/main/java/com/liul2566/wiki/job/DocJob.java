@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+//定时任务只有一个线程
 @Component
 public class DocJob {
 
@@ -24,9 +25,10 @@ public class DocJob {
     /**
      * 每30秒更新电子书信息
      */
-    @Scheduled(cron = "0 5/20 * * * ?")
+    //@Scheduled(cron = "0 5/20 * * * ?")//cron表达式
+    @Scheduled(cron = "5/40 * * * * ?")//cron表达式
     public void cron() {
-        // 增加日志流水号
+        // 增加日志流水号，方便分开不同业务的日志
         MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
         LOG.info("更新电子书下的文档数据开始");
         long start = System.currentTimeMillis();
