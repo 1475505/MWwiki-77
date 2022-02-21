@@ -18,9 +18,9 @@ import com.liul2566.wiki.util.CopyUtil;
 import com.liul2566.wiki.util.RedisUtil;
 import com.liul2566.wiki.util.RequestContext;
 import com.liul2566.wiki.util.SnowFlake;
-import com.liul2566.wiki.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -41,12 +41,10 @@ public class DocService {
     private DocMapperCust docMapperCust;
     @Autowired// same as @resource
     private SnowFlake snowFlake;
-
     @Autowired
     private RedisUtil redisUtil;
-
     @Autowired
-    private WebSocketServer webSocketServer;
+    private WsService wsService;
 
     private static final Logger LOG = LoggerFactory.getLogger(DocService.class);
 
@@ -134,10 +132,11 @@ public class DocService {
         } else {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
+
         //推送消息
         Doc docDB = Docmapper.selectByPrimaryKey(id);
-        LOG.info("点赞推送");
-        webSocketServer.sendInfo("[" + docDB.getName() + "]被点赞！");
+        //异步化解耦，为异步化生效**必须在另一个类**
+        wsService.sendInfo("[" + docDB.getName() + "]被点赞！", MDC.get("LOG_ID"));
     }
 
     public void updateEbookInfo() {
