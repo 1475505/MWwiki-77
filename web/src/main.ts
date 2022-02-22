@@ -7,9 +7,19 @@ import 'ant-design-vue/dist/antd.css';
 import * as Icons from '@ant-design/icons-vue';
 import axios from 'axios';
 import {Tool} from "@/util/tool";
+import 'vditor/dist/index.css'
+// import 'vditor/src/assets/scss/index.scss'
+// import 'vditor/src/assets/scss/_content.scss'
+// import 'vditor/src/assets/scss/_ir.scss'
+// import 'vditor/src/assets/scss/_sv.scss'
+// import 'vditor/src/assets/scss/_hint.scss'
+// import 'vditor/src/assets/scss/_panel.scss'
+// import 'vditor/src/assets/scss/_reset.scss'
+// import 'vditor/src/assets/scss/_toolbar.scss'
+// import 'vditor/src/assets/scss/_tooltipped.scss'
+// import 'vditor/src/assets/scss/_wysiwyg.scss'
 
 axios.defaults.baseURL = process.env.VUE_APP_SERVER
-
 /**
  * axios拦截器
  */

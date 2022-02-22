@@ -102,7 +102,7 @@
 
     <div class="tip">
       <div><b>感谢与站长一起合作制作七七系列工具</b></div>
-      <p>TODO:更换文本编辑器为vditor</p>
+      <p>TODO:更换文本编辑器为vditor.配置成功一半，由于环境问题，目前进度卡在完善上。</p>
     </div>
   </div>
   <div><a href="http://070077.xyz">七七的笔记（博客）：http://070077.xyz</a></div>

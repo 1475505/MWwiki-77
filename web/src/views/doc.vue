@@ -25,7 +25,8 @@
             </div>
             <a-divider style="height: 2px; background-color: #9999cc"/>
           </div>
-          <div class="wangeditor" :innerHTML="html"></div>
+          <!--          <div :innerHTML="html"></div>-->
+          <div id="preview"></div>
           <div class="vote-div">
             <a-button type="primary" shape="round" :size="'large'" @click="vote">
               <template #icon>
@@ -45,6 +46,9 @@ import axios from 'axios';
 import {message} from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 import {useRoute} from "vue-router";
+import Vditor from 'vditor'
+import 'vditor/dist/index.css'
+import 'vditor/src/assets/scss/index.scss';
 
 export default defineComponent({
   name: 'Doc',
@@ -76,10 +80,20 @@ export default defineComponent({
      * 内容查询
      **/
     const handleQueryContent = (id: number) => {
-      axios.get("/Doc/find-content/" + id).then((response) => {
+      axios.get("/Doc/find-content/" + id).then(async (response) => {
         const data = response.data;
         if (data.success) {
-          html.value = data.content;
+          const previewElement = document.getElementById('preview');
+          html.value = await Vditor.md2html(data.content);
+          if (previewElement != null) {
+            previewElement.innerHTML = html.value;
+            Vditor.mathRender(previewElement);
+            Vditor.codeRender(previewElement);
+            Vditor.highlightRender({lineNumber: false, enable: true}, previewElement);
+            Vditor.mermaidRender(previewElement, " https://cdn.jsdelivr.net/npm/vditor@3.8.11", "github");
+            Vditor.graphvizRender(previewElement);
+            Vditor.outlineRender(previewElement, previewElement);
+          }
         } else {
           message.error(data.message);
         }
@@ -149,63 +163,6 @@ export default defineComponent({
 </script>
 
 <style>
-/* wangeditor默认样式, 参照: http://www.wangeditor.com/doc/pages/02-%E5%86%85%E5%AE%B9%E5%A4%84%E7%90%86/03-%E8%8E%B7%E5%8F%96html.html */
-/* table 样式 */
-.wangeditor table {
-  border-top: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-}
-
-.wangeditor table td,
-.wangeditor table th {
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  padding: 3px 5px;
-}
-
-.wangeditor table th {
-  border-bottom: 2px solid #ccc;
-  text-align: center;
-}
-
-/* blockquote 样式 */
-.wangeditor blockquote {
-  display: block;
-  border-left: 8px solid #d0e5f2;
-  padding: 5px 10px;
-  margin: 10px 0;
-  line-height: 1.4;
-  font-size: 100%;
-  background-color: #f1f1f1;
-}
-
-/* code 样式 */
-.wangeditor code {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  background-color: #f1f1f1;
-  border-radius: 3px;
-  padding: 3px 5px;
-  margin: 0 3px;
-}
-
-.wangeditor pre code {
-  display: block;
-}
-
-/* ul ol 样式 */
-.wangeditor ul, ol {
-  margin: 10px 0 10px 20px;
-}
-
-/* 和antdv p冲突，覆盖掉 */
-.wangeditor blockquote p {
-  font-family: "YouYuan";
-  margin: 20px 10px !important;
-  font-size: 16px !important;
-  font-weight: 600;
-}
 
 /* 点赞 */
 .vote-div {
@@ -214,14 +171,8 @@ export default defineComponent({
 }
 
 /* 图片自适应 */
-.wangeditor img {
+.vditor img {
   max-width: 100%;
   height: auto;
-}
-
-/* 视频自适应 */
-.wangeditor iframe {
-  width: 100%;
-  height: 400px;
 }
 </style>
