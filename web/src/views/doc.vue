@@ -47,6 +47,7 @@ import {message} from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 import {useRoute} from "vue-router";
 import Vditor from 'vditor'
+// import VditorPreview from 'vditor/dist/method.min';
 import 'vditor/dist/index.css'
 import 'vditor/src/assets/scss/index.scss';
 
@@ -76,6 +77,61 @@ export default defineComponent({
     const level1 = ref(); // 一级文档树，children属性就是二级文档
     level1.value = [];
 
+    //渲染
+    // const initOutline = () => {
+    //   const headingElements: Element[] = []
+    //   Array.from(document?.getElementById('preview').children).forEach((item) => {
+    //     if (item.tagName.length === 2 && item.tagName !== 'HR' && item.tagName.indexOf('H') === 0) {
+    //       headingElements.push(item)
+    //     }
+    //   })
+    //
+    //   let toc: { id: string; }[] = []
+    //   window.addEventListener('scroll', () => {
+    //     const scrollTop = window.scrollY
+    //     toc = []
+    //     headingElements.forEach((item) => {
+    //       return toc.push({
+    //         id: item.id,
+    //       });
+    //     })
+    //
+    //     const currentElement = document.querySelector('.vditor-outline__item--current')
+    //     for (let i = 0, iMax = toc.length; i < iMax; i++) {
+    //       if (scrollTop < toc[i].offsetTop - 30) {
+    //         if (currentElement) {
+    //           currentElement.classList.remove('vditor-outline__item--current')
+    //         }
+    //         let index = i > 0 ? i - 1 : 0
+    //         document.querySelector('span[data-target-id="' + toc[index].id + '"]')?.classList.add('vditor-outline__item--current')
+    //         break
+    //       }
+    //     }
+    //   })
+    // }
+    // fetch('markdown/zh_CN.md').
+    // then(response => response.text()).
+    // then(markdown => {
+    //   return Vditor.preview(document.getElementById('preview'),
+    //       markdown, {
+    //         speech: {
+    //           enable: true,
+    //         },
+    //         anchor: 1,
+    //         after() {
+    //           if (window.innerWidth <= 768) {
+    //             return;
+    //           }
+    //           const outlineElement = document.getElementById('outline');
+    //           Vditor.outlineRender(document.getElementById('preview'), outlineElement);
+    //           if (outlineElement?.innerText.trim() !== '') {
+    //             outlineElement.style.display = 'block';
+    //             initOutline();
+    //           }
+    //         },
+    //       });
+    // })
+
     /**
      * 内容查询
      **/
@@ -92,7 +148,9 @@ export default defineComponent({
             Vditor.highlightRender({lineNumber: false, enable: true}, previewElement);
             Vditor.mermaidRender(previewElement, " https://cdn.jsdelivr.net/npm/vditor@3.8.11", "github");
             Vditor.graphvizRender(previewElement);
-            Vditor.outlineRender(previewElement, previewElement);
+            Vditor.mathRender(previewElement);
+            //Vditor.outlineRender(previewElement, previewElement);
+            previewElement.innerHTML = html.value;
           }
         } else {
           message.error(data.message);

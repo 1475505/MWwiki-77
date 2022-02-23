@@ -3,7 +3,7 @@
     <div class="tip">
       <div><b>欢迎来到七七wiki！</b></div>
       <div>1. 本项目为学习型项目，如果你想要增删改查项目内容，联系我。</div>
-      <div>2. 感谢技术：Springboot, Vue, wangEditor + Markdown here.</div>
+      <div>2. 感谢技术：Springboot, Vue, Markdown here.</div>
     </div>
 
     <a-row>
@@ -103,9 +103,9 @@
     <div class="tip">
       <div><b>感谢与站长一起合作制作七七系列工具</b></div>
       <p>TODO:更换文本编辑器为vditor.配置成功一半，由于环境问题，目前进度卡在完善上。</p>
+      <a href="http://070077.xyz">七七的笔记（博客）：http://070077.xyz</a>
     </div>
   </div>
-  <div><a href="http://070077.xyz">七七的笔记（博客）：http://070077.xyz</a></div>
 </template>
 
 <script lang="ts">
