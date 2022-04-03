@@ -2,98 +2,98 @@
   <div>
     <div class="tip">
       <div><b>欢迎来到七七wiki！</b></div>
-      <div>1. 本项目为学习型项目，如果你想要增删改查项目内容，联系我。</div>
+      <div>1. 本项目为学习型项目，如果您对此项目感兴趣，可联系我QQ:725230880。</div>
       <div>2. 感谢技术：Springboot, Vue, Markdown here.</div>
     </div>
 
-    <a-row>
-      <a-col :span="24">
-        <a-card>
-          <a-row>
-            <a-col :span="8">
-              <a-statistic title="总阅读量" :value="statistic.viewCount">
-                <template #suffix>
-                  <UserOutlined/>
-                </template>
-              </a-statistic>
-            </a-col>
-            <a-col :span="8">
-              <a-statistic title="总点赞量" :value="statistic.voteCount">
-                <template #suffix>
-                  <like-outlined/>
-                </template>
-              </a-statistic>
-            </a-col>
-            <a-col :span="8">
-              <a-statistic title="点赞率" :value="statistic.voteCount / statistic.viewCount * 100"
-                           :precision="2"
-                           suffix="%"
-                           :value-style="{ color: '#cf1322' }">
-                <template #suffix>
-                  <like-outlined/>
-                </template>
-              </a-statistic>
-            </a-col>
-          </a-row>
-        </a-card>
-      </a-col>
-    </a-row>
-    <br>
-    <a-row :gutter="16">
-      <a-col :span="12">
-        <a-card>
-          <a-row>
-            <a-col :span="12">
-              <a-statistic title="今日阅读" :value="statistic.todayViewCount" style="margin-right: 50px">
-                <template #suffix>
-                  <UserOutlined/>
-                </template>
-              </a-statistic>
-            </a-col>
-            <a-col :span="12">
-              <a-statistic title="今日点赞" :value="statistic.todayVoteCount">
-                <template #suffix>
-                  <like-outlined/>
-                </template>
-              </a-statistic>
-            </a-col>
-          </a-row>
-        </a-card>
-      </a-col>
-      <a-col :span="12">
-        <a-card>
-          <a-row>
-            <a-col :span="12">
-              <a-statistic
-                  title="预计今日阅读"
-                  :value="statistic.todayViewIncrease"
-                  :value-style="{ color: '#0000ff' }"
-              >
-                <template #suffix>
-                  <UserOutlined/>
-                </template>
-              </a-statistic>
-            </a-col>
-            <a-col :span="12">
-              <a-statistic
-                  title="预计今日阅读增长"
-                  :value="statistic.todayViewIncreaseRateAbs"
-                  :precision="2"
-                  suffix="%"
-                  class="demo-class"
-                  :value-style="statistic.todayViewIncreaseRate < 0 ? { color: '#3f8600' } : { color: '#cf1322' }"
-              >
-                <template #prefix>
-                  <arrow-down-outlined v-if="statistic.todayViewIncreaseRate < 0"/>
-                  <arrow-up-outlined v-if="statistic.todayViewIncreaseRate >= 0"/>
-                </template>
-              </a-statistic>
-            </a-col>
-          </a-row>
-        </a-card>
-      </a-col>
-    </a-row>
-    <br>
+    <!--    <a-row>-->
+    <!--      <a-col :span="24">-->
+    <!--        <a-card>-->
+    <!--          <a-row>-->
+    <!--            <a-col :span="8">-->
+    <!--              <a-statistic title="总阅读量" :value="statistic.viewCount">-->
+    <!--                <template #suffix>-->
+    <!--                  <UserOutlined/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--            <a-col :span="8">-->
+    <!--              <a-statistic title="总点赞量" :value="statistic.voteCount">-->
+    <!--                <template #suffix>-->
+    <!--                  <like-outlined/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--            <a-col :span="8">-->
+    <!--              <a-statistic title="点赞率" :value="statistic.voteCount / statistic.viewCount * 100"-->
+    <!--                           :precision="2"-->
+    <!--                           suffix="%"-->
+    <!--                           :value-style="{ color: '#cf1322' }">-->
+    <!--                <template #suffix>-->
+    <!--                  <like-outlined/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--          </a-row>-->
+    <!--        </a-card>-->
+    <!--      </a-col>-->
+    <!--    </a-row>-->
+    <!--    <br>-->
+    <!--    <a-row :gutter="16">-->
+    <!--      <a-col :span="12">-->
+    <!--        <a-card>-->
+    <!--          <a-row>-->
+    <!--            <a-col :span="12">-->
+    <!--              <a-statistic title="今日阅读" :value="statistic.todayViewCount" style="margin-right: 50px">-->
+    <!--                <template #suffix>-->
+    <!--                  <UserOutlined/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--            <a-col :span="12">-->
+    <!--              <a-statistic title="今日点赞" :value="statistic.todayVoteCount">-->
+    <!--                <template #suffix>-->
+    <!--                  <like-outlined/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--          </a-row>-->
+    <!--        </a-card>-->
+    <!--      </a-col>-->
+    <!--      <a-col :span="12">-->
+    <!--        <a-card>-->
+    <!--          <a-row>-->
+    <!--            <a-col :span="12">-->
+    <!--              <a-statistic-->
+    <!--                  title="预计今日阅读"-->
+    <!--                  :value="statistic.todayViewIncrease"-->
+    <!--                  :value-style="{ color: '#0000ff' }"-->
+    <!--              >-->
+    <!--                <template #suffix>-->
+    <!--                  <UserOutlined/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--            <a-col :span="12">-->
+    <!--              <a-statistic-->
+    <!--                  title="预计今日阅读增长"-->
+    <!--                  :value="statistic.todayViewIncreaseRateAbs"-->
+    <!--                  :precision="2"-->
+    <!--                  suffix="%"-->
+    <!--                  class="demo-class"-->
+    <!--                  :value-style="statistic.todayViewIncreaseRate < 0 ? { color: '#3f8600' } : { color: '#cf1322' }"-->
+    <!--              >-->
+    <!--                <template #prefix>-->
+    <!--                  <arrow-down-outlined v-if="statistic.todayViewIncreaseRate < 0"/>-->
+    <!--                  <arrow-up-outlined v-if="statistic.todayViewIncreaseRate >= 0"/>-->
+    <!--                </template>-->
+    <!--              </a-statistic>-->
+    <!--            </a-col>-->
+    <!--          </a-row>-->
+    <!--        </a-card>-->
+    <!--      </a-col>-->
+    <!--    </a-row>-->
+    <!--    <br>-->
     <a-row>
       <a-col :span="24" id="main-col">
         <div id="main" style="width: 100%;height:300px;"></div>
@@ -101,9 +101,9 @@
     </a-row>
 
     <div class="tip">
-      <div><b>感谢与站长一起合作制作七七系列工具</b></div>
+      <div><b>感谢使用七七系列工具</b></div>
       <p>TODO:更换文本编辑器为vditor.配置成功一半，由于环境问题，目前进度卡在完善上。</p>
-      <a href="http://070077.xyz">七七的笔记（博客）：http://070077.xyz</a>
+      <a href="http://070077.xyz">七七的笔记（博客）：</a>http://070077.xyz
     </div>
   </div>
 </template>

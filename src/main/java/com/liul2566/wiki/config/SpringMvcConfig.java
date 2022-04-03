@@ -3,12 +3,20 @@ package com.liul2566.wiki.config;
 import com.liul2566.wiki.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 
 @Configuration
 public class SpringMvcConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
+    }
 
     @Resource
     LoginInterceptor loginInterceptor;
@@ -18,7 +26,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**")
+                .addPathPatterns("/admins/**")
                 .excludePathPatterns(
                         "/test/**",
                         "/redis/**",
@@ -28,7 +36,11 @@ public class SpringMvcConfig implements WebMvcConfigurer {
                         "/Doc/all/**",
                         "/Doc/vote/**",
                         "/Doc/find-content/**",
-                        "/Ebook-snapshot/**"
+                        "/pan/**",
+                        "/pan",
+                        "/ebook-snapshot/**",
+                        "/ebook-snapshot",
+                        "/ebook**"
                 );
 
 //        registry.addInterceptor(actionInterceptor)

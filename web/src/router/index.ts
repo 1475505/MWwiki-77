@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import Home from '../views/Home.vue'
 import Doc from '../views/doc.vue'
+import pan from '../views/pan.vue'
 import adminEbook from '../views/admin/Ebook.vue'
 import adminCategory from '../views/admin/Category.vue'
 import adminDoc from '../views/admin/Doc.vue'
@@ -20,6 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Doc
   },
   {
+    path: '/pan',
+    name: 'pan',
+    component: pan
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -31,33 +37,21 @@ const routes: Array<RouteRecordRaw> = [
     path: '/admin/ebook',
     name: 'adminEbook',
     component: adminEbook,
-    meta: {
-      loginRequire: true
-    }
   },
   {
     path: '/admin/category',
     name: 'adminCategory',
     component: adminCategory,
-    meta: {
-      loginRequire: true
-    }
   },
   {
     path: '/admin/doc',
     name: 'adminDoc',
     component: adminDoc,
-    meta: {
-      loginRequire: true
-    }
   },
   {
     path: '/admin/user',
     name: 'adminUser',
     component: adminUser,
-    meta: {
-      loginRequire: true
-    }
   },
 ]
 

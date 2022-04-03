@@ -46,5 +46,6 @@
         <table tableName="content"/>
         <table tableName="user"/>
         <table tableName="ebook_snapshot"/>
+        <table tableName="filenames"/>
     </context>
 </generatorConfiguration>

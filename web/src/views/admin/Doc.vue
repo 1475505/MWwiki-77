@@ -367,13 +367,16 @@ export default defineComponent({
     onMounted(() => {
       editor.value = new Vditor('vditor', {
         theme: 'classic',
-        //_lutePath: 'src/js/lute/lute.min.js',
+        // _lutePath: 'src/js/lute/lute.min.js',
         height: window.innerHeight,
-        mode: "wysiwyg",
+        mode: "ir",
         preview: {
           delay: 1000,
           markdown: {
             toc: true,
+          },
+          "hljs": {
+            "style": "emacs",
           }
         },
         toolbarConfig: {
@@ -425,6 +428,10 @@ export default defineComponent({
           }],
         "counter": {
           "enable": true
+        },
+        "outline": {
+          "enable": true,
+          "position": "right"
         },
         hint: {
           parse: false,

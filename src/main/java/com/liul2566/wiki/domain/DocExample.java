@@ -204,7 +204,7 @@ public class DocExample {
             return (Criteria) this;
         }
 
-        public Criteria andEbookIdIn(List<String> values) {
+        public Criteria andEbookIdIn(List<Long> values) {
             addCriterion("ebook_id in", values, "ebookId");
             return (Criteria) this;
         }

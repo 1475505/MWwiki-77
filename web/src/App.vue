@@ -3,6 +3,7 @@
     <the-header></the-header>
     <router-view/>
     <the-footer></the-footer>
+    <a-back-top/>
   </a-layout>
 </template>
 
@@ -19,7 +20,7 @@ export default defineComponent({
     LaptopOutlined,
     NotificationOutlined,
     theHeader,
-    theFooter
+    theFooter,
   },
   setup() {
     return {

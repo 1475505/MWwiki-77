@@ -16,7 +16,7 @@
           >
           </a-tree>
         </a-col>
-        <a-col :span="18">
+        <a-col :span="18" disabled="true">
           <div>
             <h2>{{ doc.name }}</h2>
             <div>
@@ -26,7 +26,7 @@
             <a-divider style="height: 2px; background-color: #9999cc"/>
           </div>
           <!--          <div :innerHTML="html"></div>-->
-          <div id="preview"></div>
+          <div id="vditor" disabled></div>
           <div class="vote-div">
             <a-button type="primary" shape="round" :size="'large'" @click="vote">
               <template #icon>
@@ -47,9 +47,10 @@ import {message} from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 import {useRoute} from "vue-router";
 import Vditor from 'vditor'
-// import VditorPreview from 'vditor/dist/method.min';
 import 'vditor/dist/index.css'
 import 'vditor/src/assets/scss/index.scss';
+
+const editor = ref();
 
 export default defineComponent({
   name: 'Doc',
@@ -138,20 +139,10 @@ export default defineComponent({
     const handleQueryContent = (id: number) => {
       axios.get("/Doc/find-content/" + id).then(async (response) => {
         const data = response.data;
+        editor.value.setValue("");
         if (data.success) {
-          const previewElement = document.getElementById('preview');
-          html.value = await Vditor.md2html(data.content);
-          if (previewElement != null) {
-            previewElement.innerHTML = html.value;
-            Vditor.mathRender(previewElement);
-            Vditor.codeRender(previewElement);
-            Vditor.highlightRender({lineNumber: false, enable: true}, previewElement);
-            Vditor.mermaidRender(previewElement, " https://cdn.jsdelivr.net/npm/vditor@3.8.11", "github");
-            Vditor.graphvizRender(previewElement);
-            Vditor.mathRender(previewElement);
-            //Vditor.outlineRender(previewElement, previewElement);
-            previewElement.innerHTML = html.value;
-          }
+          editor.value.setValue(data.content);
+          editor.value.blur();
         } else {
           message.error(data.message);
         }
@@ -205,6 +196,50 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      editor.value = new Vditor('vditor', {
+        theme: 'classic',
+        // _lutePath: 'src/js/lute/lute.min.js',
+        mode: "ir",
+        preview: {
+          delay: 1000,
+          "hljs": {
+            "lineNumber": true,
+            "enable": true,
+            "style": "emacs",
+          }
+        },
+        toolbarConfig: {
+          pin: true,
+        },
+        cache: {
+          enable: false
+        },
+        toolbar: [
+          'bold',
+          'italic',
+          'strike',
+          'undo',
+          'redo',
+          'export',
+          {
+            name: 'more',
+            toolbar: [
+              'fullscreen',
+              'both',
+              'preview',
+              'info',
+              'help',
+            ],
+          }],
+        "counter": {
+          "enable": true
+        },
+        "outline": {
+          "enable": true,
+          "position": "right"
+        },
+        "value": "LOADING...长时间不响应请刷新",
+      })
       handleQuery();
     });
 

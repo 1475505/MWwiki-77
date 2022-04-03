@@ -9,6 +9,9 @@
       <a-menu-item key="/home">
         <router-link to="/">首页</router-link>
       </a-menu-item>
+      <a-menu-item key="/pan">
+        <router-link to="/pan">文件共享</router-link>
+      </a-menu-item>
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
@@ -29,10 +32,10 @@
         </a>
       </a-popconfirm>
       <a class="loginmenu" v-show="user.id">
-        <span>您好：{{ user.name }}  </span>
+        <span>您好{{ user.name }}  </span>
       </a>
       <a class="loginmenu" v-show="!user.id" @click="showLoginModal">
-        <span>请登录  </span>
+        <span>  管理登录入口</span>
       </a>
     </a-menu>
   </a-layout-header>
