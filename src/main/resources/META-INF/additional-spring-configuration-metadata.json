@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "file.localurl",
+      "type": "java.lang.String",
+      "description": "Description for file.localurl."
+    },
+    {
+      "name": "file.uploadurl",
+      "type": "java.lang.String",
+      "description": "Description for file.uploadurl."
+    }
+  ]
+}

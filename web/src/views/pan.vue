@@ -1,5 +1,5 @@
 <template>
-  <a-upload action="http://service.070077.xyz/pan/upload" v-model:file-list="fileList">
+  <a-upload action="http://localhost:8880/pan/upload" v-model:file-list="fileList">
     <a-button>
       <upload-outlined></upload-outlined>
       上传

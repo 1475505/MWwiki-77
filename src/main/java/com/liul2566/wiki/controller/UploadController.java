@@ -3,7 +3,6 @@ package com.liul2566.wiki.controller;
 import com.liul2566.wiki.domain.Filenames;
 import com.liul2566.wiki.mapper.FilenamesMapper;
 import com.liul2566.wiki.service.FilenamesService;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,21 +27,20 @@ public class UploadController {
     @Resource
     private FilenamesMapper filenamesMapper;
 
+
     @PostMapping("/upload")
     public Map<String, Object> fileupload(MultipartFile file, HttpServletRequest req) throws FileNotFoundException {
         Map<String, Object> result = new HashMap<>();
         String fileName = file.getOriginalFilename();
-        filenamesMapper.insert(fileName);
-        String filePath = ClassUtils.getDefaultClassLoader().getResource("").getPath() + "static/files/";
-        File dest = new File(filePath + fileName);
+        File filePath = new File(req.getServletContext().getRealPath("/"));
+        File dest = new File(filePath, fileName);
         System.out.println(dest.getAbsoluteFile());
-        File folder = new File(filePath);
-        System.out.println(filePath);
-        if (!folder.exists()) {
-            folder.mkdirs();
+        if (!filePath.exists()) {
+            filePath.mkdirs();
         }
         try {
             file.transferTo(dest);
+            filenamesMapper.insert(fileName);
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + fileName;
             result.put("status", "OK");
             result.put("name", fileName);
